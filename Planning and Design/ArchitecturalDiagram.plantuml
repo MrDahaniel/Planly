@@ -1,0 +1,25 @@
+@startuml ArchitecturalDiagram
+
+    title \n Planly: Diagrama de Arquitectura \n
+
+    left to right direction
+    skinparam monochrome true
+    skinparam roundcorner 20
+
+    ' Services definition
+
+        ' Database Services
+        [Base de datos: PostgreSQL\n(Usuarios y Eventos)] as P_SQL_DB
+        [Base de datos: MongoDB\n(Chat, comunicados y foros)] as MONGO_DB
+
+        ' Business and logic services
+        [UserHandler] as UHMicro
+        [EventHandler] as EHMicro
+        [AlertsSystem] as ALSys
+        [ChatService] as ChatServ
+        [Frontend] as Front
+
+        
+
+
+@enduml

@@ -1,0 +1,162 @@
+@startuml PlanlyUseCaseDiagram
+
+    title Use Case Diagram - Planly\n
+
+
+    skinparam Style strictuml 
+    skinparam SequenceMessageAlignment center
+
+    left to right direction
+    skinparam monochrome true
+    skinparam roundcorner 20
+
+    ' Definitions
+        ' Actors
+        Actor :Usuario: as U
+        Actor :Administrador: as Adm
+        Actor :Lider de\n   Equipo: as LEqu
+        Actor :Miembro de\n   Equipo: as ME
+        Actor :Moderador de\n   Equipo: as ModE
+        Actor :Cliente: as C
+
+    ' Use Cases
+        ' Crear
+        usecase (Crear Cuenta) as (CC)
+
+         Rectangle ManejoDePlanes {
+            usecase (Crear Evento) as (CE)
+            usecase (Crear Actividad) as (CA)
+            usecase (Crear Tarea) as (CT)
+            usecase (Eliminar Evento) as (ElimEv)
+            usecase (Eliminar Actividad) as (ElimAct)
+            usecase (Eliminar Tarea) as (ElimTar)
+         }   
+
+        Rectangle JerarquíaDelProyecto {
+            usecase (Crear Organización) as (CO)
+            usecase (Crear Division) as (CD)
+            usecase (Crear Proyecto) as (CP)
+            usecase (Crear Equipo de Trabajo) as (CET)
+        }           
+        
+        Rectangle GestiónDeRolesYPermisos {
+            usecase (Crear Rol) as (CR)
+            usecase (Asignar Permisos\na un Rol) as (APR)
+            usecase (Asignar Rol a Usuario) as (ARU)
+        }
+
+        ' Añadir
+
+        Rectangle DetallesDePlaneación {
+            usecase (Añadir Descripción) as (AddDes)
+            usecase (Añadir Intervalo\nde Tiempo) as (AIT)
+            usecase (Adjuntar Documeto) as (AddDoc)
+            usecase (Añadir Comentario) as (AddCom)
+            usecase (Crear Alerta) as (CAle)
+            usecase (Editar Estado) as (EE)
+            usecase (Editar Descripción) as (EdDes)
+            usecase (Editar Intervalo\nde Tiempo) as (EIT)
+            usecase (Eliminar Documeto) as (ElimDoc)
+        }
+
+        Rectangle ManejoDeUsuarios {
+            usecase (Invitar Usuario) as (IU)
+            usecase (Añadir Miembro a \nEquipo de Trabajo) as (AMET)
+            usecase (Eliminar Miembro de\nun Equipo de Trabajo) as (EMET)
+        }
+
+
+        ' Listar
+        rectangle VizualizarPlaneación {
+            usecase (Listar Eventos) as (LE)
+            usecase (Listar Actividades) as (LA)
+            usecase (Listar Tareas) as (LT)
+        }
+
+        usecase (Listar Miembros de Equipo) as (LME)
+
+        ' Eliminar 
+
+    ' Relaciones
+        ' Entre Actores
+        U <-- ME
+        U -- C
+        ME <-- ModE
+        ModE <-- LEqu
+        LEqu <-- Adm
+
+        ' Entre casos de uso
+            ' Listar    
+            LE <.right. LA
+            LA <.right. LT
+
+            ' Crear y Editar
+            CE <.right. CA
+            CA <.right. CT
+
+            AddDes <.. EdDes
+
+            ' Jerarquía
+            CO <.right. CD 
+            CD <.right. CP 
+            CP <.right. CET
+
+            CE .. ElimEv
+            CA .. ElimAct 
+            CT .. ElimTar
+
+            AIT <.. EIT
+            AddDoc <.. ElimDoc
+
+
+
+        ' Actores a casos de uso
+            ' Usuario
+            U -- CC
+            U -- LE
+            ' U -- LA
+            ' U -- LT
+
+            ' Cliente
+            C -- AddCom
+
+            ' Auditor
+
+            ' Miembro de equipo
+            ME -- LME
+            ME -- CAle
+            ME -- AddDes
+            ME -- AddDoc
+
+            ' ME -- EdDes
+            ME -- CT
+            ' ME -- ElimTar
+
+
+            ' Moderador de Equipo
+            ModE -- ARU
+            ModE -- CE
+            ModE -- CA
+            ModE -- AIT
+            ' ModE -- ElimEv
+            ' ModE -- ElimAct
+            ModE -- EE
+
+            ' Lider de Equipo
+            LEqu -- CET
+            LEqu -- AMET
+            LEqu -- EMET
+
+            ' Administrador
+            Adm -- CR
+            Adm -- CO
+            Adm -- CP
+            Adm -- IU
+            Adm -- CD
+            Adm -- APR
+
+
+
+
+
+@enduml

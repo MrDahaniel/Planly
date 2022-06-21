@@ -1,0 +1,130 @@
+@startuml yumlyClassDiagram
+
+    title \n Planly: Class Diagram \n
+
+    left to right direction
+    skinparam monochrome true
+    skinparam roundcorner 20
+
+        class Organización  {
+            + id: int 
+            + name: str
+            + owner: Usuario
+            + id_level: int
+        }
+
+        class Proyecto {
+            + id: int 
+            + name: str
+            + owner: Usuario
+        }
+
+
+        class Departamento {
+            + id: int 
+            + name: str
+            + owner: Usuario
+        }
+
+        class GrupoDeTrabajo {
+            + id: int 
+            + name: str
+            + description: str
+            + owner: Usuario
+        }
+
+        class Usuario {
+            + id: int
+            + username: str
+            + email: str
+            + password_hash: str
+            + join_date: Date
+            + last_active: Date
+
+            ' + crear_evento()
+            ' + crear_rol()
+            ' + crear_proyecto()
+            ' + crear_departamento()
+            ' + crear_grupo_trabajo()
+        }
+
+        class Rol {
+            + name: str
+            + description: str
+            + color: str
+            + creator: Usuario
+        }
+
+        class Permiso {
+            + id: int
+            + name: str
+            + description: str
+        }
+
+        class Evento {
+            + id: int
+            + name: str 
+            + description: str
+            + start_date: timedate
+            + end_date: timedate
+            + active: bool
+            + owner: Usuario
+            + id_grupo_trabajo: GrupoDeTrabajo
+            + id_evento_padre: Evento
+            + id_tipo_evento: TipoEvento
+        }
+
+        class Documeto {
+            + id: int
+            + name: str
+            + id_tipo_documento
+        }
+
+        class TipoDocumeto {
+            + id: int
+            + name: str
+            + description: str
+        }
+
+        class Alerta {
+            + id: int
+            + name: name
+            + owner: Usuario
+            + alert_date: timedate
+            + active: bool
+        }
+
+        class Comentario {
+
+        }
+
+        class TipoEvento {
+            + id: int
+            + name: str
+            + description: str
+        }
+
+
+        ' Relaciones
+        Organización "1" o-left- "n" Proyecto
+        Proyecto "1" o-- "n" Departamento
+        Departamento "1" o-- "n" GrupoDeTrabajo
+        GrupoDeTrabajo "n" o-- "n" Usuario
+
+        Rol "1" o-- "n" Permiso
+        Usuario "1" o-- "n" Rol
+
+        Evento -- Usuario
+        Evento -- GrupoDeTrabajo
+        Evento -- Documeto
+        Evento -- Alerta
+        Evento -- Comentario
+
+        Evento "1" -- "n" Evento
+
+        Evento "1" -right- "1" TipoEvento
+
+        Evento -- Documeto
+        Documeto o-- TipoDocumeto
+
+@enduml
