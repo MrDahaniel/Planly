@@ -15,11 +15,21 @@
         ' Business and logic services
         [UserHandler] as UHMicro
         [EventHandler] as EHMicro
-        [AlertsSystem] as ALSys
+        [AlertSystem] as ALSys
         [ChatService] as ChatServ
         [Frontend] as Front
 
         
+        Front -- UHMicro
+        Front -- EHMicro
+        Front -- ChatServ
+
+        EHMicro -- P_SQL_DB
+        UHMicro -- P_SQL_DB
+
+        ChatServ -- MONGO_DB
+
+        EHMicro -- ALSys
 
 
 @enduml
