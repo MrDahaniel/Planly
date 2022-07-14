@@ -30,6 +30,11 @@
         ChatServ -- MONGO_DB
 
         EHMicro -- ALSys
+        UHMicro -- ALSys
+
+        ChatServ -left- UHMicro
+        UHMicro -left- EHMicro
+        ChatServ -left- EHMicro
 
 
 @enduml
