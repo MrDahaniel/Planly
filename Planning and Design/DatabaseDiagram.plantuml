@@ -1,0 +1,120 @@
+@startuml yumlyClassDiagram
+
+    title \n Planly: Entity Relationship Diagram \n
+
+    entity Users {
+        + id: number «generated»
+        ---
+        * username: varchar(36)
+        full_name: varchar(100)
+        * email: varchar(256)
+        * pass_hash: varchar(500)
+        birthday: date
+    }
+
+    entity Roles {
+        + id: number «generated»
+        ---
+        * name: varchar(20)
+        description: varchar(200)
+        color: varchar(6)
+    }
+
+    entity User_Roles {
+        # user_id: number
+        # role_id: number
+    }
+    
+    entity Permissions {
+        + id: number «generated»
+        ---
+        * name: varchar(20)
+        description: varchar(200)
+    }
+
+    entity Role_Permissions {
+        # role_id: number
+        # permission_id: number
+    }
+
+    entity Workgroups {
+        + id: number «generated»
+        ---
+        # parent_id: number
+        # classification_id: number
+        * name: varchar(50)
+        description: varchar(200)
+        color: varchar(6)
+    }
+
+    entity Workgroup_Users {
+        # user_id: number
+        # workgroup_id: number
+    }
+
+    entity Workgroups_Classifications {
+        + id: number «generated»
+        ---
+        * name: varchar(20)
+        * level: number
+        description: varchar(200)
+    }
+
+    entity Events {
+        + id: number «generated»
+        ---
+        # author_id: number
+    }
+
+    entity Event_State {
+        + id: number «generated»
+        ---
+        * name: varchar(10)
+        * color: varchar(6)
+        description: varchar(200)
+    }
+
+    entity Event_Classification {
+        + id: number «generated»
+        ---
+        * name: varchar(20)
+        * level: number
+        description: varchar(200)
+    }
+
+    entity Event_Detail {
+        + id: number
+        ---
+        * name: varchar(30)
+        description: varchar(200)
+        * start_date: date
+        * end_date: date
+        # workgroup_id: number
+        # parent_id: number
+        # state_id: number
+        # classification_id: number
+    }
+
+    Users |o-left-o{ User_Roles
+    User_Roles }o-left-o| Roles
+
+    Users |o-right-o{ Workgroup_Users
+    Workgroup_Users }o-right-o| Workgroups
+
+    Roles |o--o{ Role_Permissions
+    Role_Permissions }o--o| Permissions
+
+    Events  ||-left-|{ Event_Detail
+    Events  ||-down-|{ Event_State
+    Events  }|-right-o| Event_Classification
+
+    Workgroups }|--o| Workgroups_Classifications
+    Workgroups ||--o{ Workgroups
+
+    Users ||-down-o{ Events
+
+
+
+
+@enduml
+
