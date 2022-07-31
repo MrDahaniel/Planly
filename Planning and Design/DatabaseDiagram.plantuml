@@ -1,4 +1,4 @@
-@startuml yumlyClassDiagram
+@startuml yumlyDatabaseDiagram
 
     title \n Planly: Entity Relationship Diagram \n
 
@@ -66,6 +66,19 @@
         # author_id: number
     }
 
+    entity Event_Users {
+        # user_id: number
+        # event_id: number
+        # type_id: number
+    }
+
+    entity Event_User_Types {
+        + id: number «generated»
+        ---
+        * name: varchar(20)
+        description: varchar(200)
+    }
+
     entity Event_State {
         + id: number «generated»
         ---
@@ -96,22 +109,26 @@
     }
 
     Users |o-left-o{ User_Roles
+    Users |o-right-o{ Event_Users
     User_Roles }o-left-o| Roles
 
-    Users |o-right-o{ Workgroup_Users
-    Workgroup_Users }o-right-o| Workgroups
+    Users |o--o{ Workgroup_Users
+    Workgroup_Users }o--o| Workgroups
 
     Roles |o--o{ Role_Permissions
     Role_Permissions }o--o| Permissions
 
-    Events  ||-left-|{ Event_Detail
-    Events  ||-down-|{ Event_State
-    Events  }|-right-o| Event_Classification
+    Events ||-right-|{ Event_Detail
+    Events |o-left-o{ Users
+    Events |o--o{ Event_Users
+    Event_Users }--o{ Event_User_Types 
+    Events ||--|{ Event_State
+    Events }|-up-o| Event_Classification
 
     Workgroups }|--o| Workgroups_Classifications
     Workgroups ||--o{ Workgroups
 
-    Users ||-down-o{ Events
+    ' Users ||--o{ Events
 
 
 
