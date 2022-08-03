@@ -21,6 +21,7 @@
     }
 
     entity User_Roles {
+        ---
         # user_id: number
         # role_id: number
     }
@@ -33,6 +34,7 @@
     }
 
     entity Role_Permissions {
+        ---
         # role_id: number
         # permission_id: number
     }
@@ -48,6 +50,7 @@
     }
 
     entity Workgroup_Users {
+        ---
         # user_id: number
         # workgroup_id: number
     }
@@ -67,6 +70,7 @@
     }
 
     entity Event_Users {
+        ---
         # user_id: number
         # event_id: number
         # type_id: number
@@ -108,9 +112,9 @@
         # classification_id: number
     }
 
-    Users |o-left-o{ User_Roles
-    Users |o-right-o{ Event_Users
-    User_Roles }o-left-o| Roles
+    Users |o--o{ User_Roles
+    Users |o--o{ Event_Users
+    User_Roles }o--o| Roles
 
     Users |o--o{ Workgroup_Users
     Workgroup_Users }o--o| Workgroups
@@ -118,16 +122,17 @@
     Roles |o--o{ Role_Permissions
     Role_Permissions }o--o| Permissions
 
-    Events ||-right-|{ Event_Detail
-    Events |o-left-o{ Users
-    Events |o--o{ Event_Users
+    Events ||--|{ Event_Detail
+    Events |o--o{ Users
+    Events |o-left-o{ Event_Users
     Event_Users }--o{ Event_User_Types 
-    Events ||--|{ Event_State
-    Events }|-up-o| Event_Classification
+    Event_Detail ||--|{ Event_State
+    Events }|-right-o| Event_Classification
 
     Workgroups }|--o| Workgroups_Classifications
     Workgroups ||--o{ Workgroups
 
+    Event_Detail ||--o{ Workgroups
     ' Users ||--o{ Events
 
 
